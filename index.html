@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CV BERKAWAN PONSEL - Daftar Smartphone</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card-img-top {
+      height: 220px;
+      object-fit: contain;
+      padding: 10px;
+      background-color: #fff;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .category-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 40px 0 20px;
+    }
+    .navbar {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="dashboard.html">CV BERKAWAN PONSEL</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="text-center mb-4">
+    <button id="isiDataBtn" class="btn btn-success animate__animated animate__fadeIn">Isi Data HP</button>
+  </div>
+
+  <div id="smartphoneContainer"></div>
+</div>
+
+<script>
+// Data HP
+const smartphoneData = [
+  { merk: "Oppo", tipe: "Oppo A3x", gambar: "img/oppo-a3x.jpg", ram: "4 GB", storage: "64 GB", harga: 1400000, deskripsi: "Tahun Rilis 2024, Jaringan 4G, Dual SIM, Kamera 8 MP, Baterai 5000mAh, Layar 6.5 inci HD+" },
+  { merk: "Oppo", tipe: "Oppo A5 Pro", gambar: "img/oppo-a5pro.jpg", ram: "8 GB", storage: "128 GB", harga: 3100000, deskripsi: "Snapdragon 6S 4G, Kamera 50 MP, Baterai 5800mAh, IP68, Android 14" },
+  { merk: "Oppo", tipe: "Oppo Reno 13F 4G", gambar: "img/oppo-reno13f4g.jpg", ram: "8 GB", storage: "256 GB", harga: 4700000, deskripsi: "MediaTek Helio G100, Kamera 50 MP, Baterai 5600mAh, Android 14" },
+
+  { merk: "Samsung", tipe: "Samsung A06", gambar: "img/samsung-a06.jpg", ram: "4 GB", storage: "64 GB", harga: 1300000, deskripsi: "Helio G85, Kamera 50 MP, Baterai 5000mAh, Android 14" },
+  { merk: "Samsung", tipe: "Samsung A16 4G", gambar: "img/samsung-a164g.jpg", ram: "8 GB", storage: "128 GB", harga: 3000000, deskripsi: "Helio G99, Layar AMOLED 6.7\", Kamera 50+5+2 MP, Baterai 5000mAh" },
+  { merk: "Samsung", tipe: "Samsung A26 5G", gambar: "img/samsung-a265g.jpg", ram: "8 GB", storage: "256 GB", harga: 4000000, deskripsi: "Exynos 1380, Kamera 50+8+5 MP, Layar AMOLED 120Hz, IP67" },
+
+  { merk: "Vivo", tipe: "Vivo Y03t", gambar: "img/vivo-y03t.jpg", ram: "4 GB", storage: "32 GB", harga: 1200000, deskripsi: "Unisoc T612, Kamera 13 MP, Layar 6.56\" 90Hz, Baterai 5000mAh" },
+  { merk: "Vivo", tipe: "Vivo Y19s Pro", gambar: "img/vivo-y19spro.jpg", ram: "6 GB", storage: "128 GB", harga: 2000000, deskripsi: "Unisoc T612, Kamera 50 MP, Baterai 6000mAh, Android 15" },
+  { merk: "Vivo", tipe: "Vivo V50 Lite", gambar: "img/vivo-v50lite.jpg", ram: "8 GB", storage: "256 GB", harga: 4000000, deskripsi: "Snapdragon 685, AMOLED 120Hz, Kamera 50 MP, Android 15" },
+
+  { merk: "Xiaomi", tipe: "Redmi A5", gambar: "img/redmi-a5.jpg", ram: "4 GB", storage: "128 GB", harga: 1200000, deskripsi: "Helio G36, Kamera 32 MP, Layar 6.5\", Baterai 5000mAh" },
+  { merk: "Xiaomi", tipe: "Xiaomi 13X", gambar: "img/xiaomi-13x.jpg", ram: "8 GB", storage: "256 GB", harga: 1800000, deskripsi: "Helio G91 Ultra, Kamera 108 MP, Layar 6.79\" FHD+, Android 14" },
+  { merk: "Xiaomi", tipe: "Note 14 5G", gambar: "img/note-145g.jpg", ram: "8 GB", storage: "256 GB", harga: 3200000, deskripsi: "Dimensity 7025 Ultra, Kamera 108 MP, AMOLED 6.67\", Android 14" },
+  { merk: "Xiaomi", tipe: "Note 14 Pro 5G", gambar: "img/note-14pro5g.jpg", ram: "8 GB", storage: "256 GB", harga: 4000000, deskripsi: "Dimensity 7300 Ultra, Kamera 200 MP, AMOLED HDR10+, IP68" }
+];
+
+localStorage.setItem("smartphones", JSON.stringify(smartphoneData));
+
+const smartphones = JSON.parse(localStorage.getItem("smartphones")) || [];
+
+function renderByMerk(merk) {
+  const container = document.getElementById("smartphoneContainer");
+  const filtered = smartphones.filter(hp => hp.merk === merk);
+  if (filtered.length > 0) {
+    container.innerHTML += `<div class='category-title'>${merk}</div><div class='row g-3 mb-5' id='row-${merk}'></div>`;
+    const row = document.getElementById(`row-${merk}`);
+    filtered.forEach(hp => {
+      const index = smartphones.indexOf(hp);
+      const card = `
+        <div class="col-md-4 animate__animated animate__fadeInUp">
+          <div class="card h-100 shadow-sm">
+            <img src="${hp.gambar}" class="card-img-top" alt="${hp.tipe}">
+            <div class="card-body">
+              <h5 class="card-title">${hp.tipe}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${hp.merk}</h6>
+              <p class="card-text mb-1"><strong>RAM:</strong> ${hp.ram}</p>
+              <p class="card-text mb-1"><strong>Storage:</strong> ${hp.storage}</p>
+              <p class="card-text mb-1"><strong>Harga:</strong> Rp${hp.harga.toLocaleString()}</p>
+              <p class="card-text"><small>${hp.deskripsi}</small></p>
+              <a href="detail.html?index=${index}" class="btn btn-outline-primary w-100 mt-2">Lihat Detail</a>
+              <button class="btn btn-primary w-100 mt-2" onclick="checkout('${hp.tipe}', ${hp.harga})">Checkout</button>
+            </div>
+          </div>
+        </div>
+      `;
+      row.innerHTML += card;
+    });
+  }
+}
+
+function checkout(tipe, harga) {
+  alert(`Silakan transfer Rp${harga.toLocaleString()} ke:\n\nBCA 7985559244 a.n CV BERKAWAN PONSEL\n\nTipe: ${tipe}`);
+}
+
+document.getElementById("isiDataBtn").addEventListener("click", () => {
+  localStorage.setItem("smartphones", JSON.stringify(smartphoneData));
+  alert("✅ Data berhasil dimasukkan.");
+  location.reload();
+});
+
+['Oppo', 'Samsung', 'Vivo', 'Xiaomi'].forEach(renderByMerk);
+</script>
+
+</body>
+</html>
+
+
+
+

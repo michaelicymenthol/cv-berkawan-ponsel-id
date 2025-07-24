@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Smartphone</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .detail-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .spec-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-top: 25px;
+      border-bottom: 2px solid #dee2e6;
+      padding-bottom: 8px;
+    }
+    .img-fluid {
+      max-height: 400px;
+      object-fit: contain;
+    }
+    .back-btn {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container my-5">
+  <div class="detail-container animate__animated animate__fadeInUp">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center">
+        <img id="gambarHp" class="img-fluid mb-3" alt="Gambar HP">
+      </div>
+      <div class="col-md-6">
+        <h3 id="tipeHp" class="fw-bold"></h3>
+        <h5 class="text-muted" id="merkHp"></h5>
+        <p class="mt-3" id="deskripsiHp"></p>
+
+        <div class="spec-title">Spesifikasi</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>RAM:</strong> <span id="ramHp"></span></li>
+          <li class="list-group-item"><strong>Storage:</strong> <span id="storageHp"></span></li>
+          <li class="list-group-item"><strong>Harga:</strong> Rp<span id="hargaHp"></span></li>
+        </ul>
+
+        <div class="mt-4">
+          <a id="btnCheckout" class="btn btn-success w-100 mb-2">Checkout Sekarang</a>
+          <a href="index.html" class="btn btn-outline-secondary w-100">Kembali ke Beranda</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const index = parseInt(params.get('index'));
+const data = JSON.parse(localStorage.getItem('smartphones')) || [];
+
+if (!isNaN(index) && data[index]) {
+  const hp = data[index];
+  document.getElementById('gambarHp').src = hp.gambar;
+  document.getElementById('tipeHp').textContent = hp.tipe;
+  document.getElementById('merkHp').textContent = hp.merk;
+  document.getElementById('ramHp').textContent = hp.ram;
+  document.getElementById('storageHp').textContent = hp.storage;
+  document.getElementById('hargaHp').textContent = hp.harga.toLocaleString();
+  document.getElementById('deskripsiHp').textContent = hp.deskripsi;
+
+  document.getElementById('btnCheckout').href = `checkout.html?index=${index}`;
+} else {
+  document.body.innerHTML = '<div class="container text-center py-5"><h3 class="text-danger">Data tidak ditemukan.</h3><a href="index.html" class="btn btn-primary mt-3">Kembali</a></div>';
+}
+</script>
+
+</body>
+</html>
+
+
+
